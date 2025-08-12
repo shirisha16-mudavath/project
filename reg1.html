@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Quiz Registration with Drag & Drop Payment</title>
+<style>
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    margin: 0; padding: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .container {
+    background: #fff;
+    width: 460px;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow:
+      0 4px 8px rgba(102, 126, 234, 0.3),
+      0 8px 20px rgba(118, 75, 162, 0.2);
+  }
+  .logo {
+    display: block;
+    margin: 0 auto 20px auto;
+    width: 80px;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+  }
+  h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #5a2a83;
+    text-shadow: 1px 1px 3px rgba(102,126,234,0.5);
+  }
+  label {
+    display: block;
+    margin-top: 18px;
+    font-weight: 600;
+    color: #4a3f65;
+  }
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="date"],
+  select {
+    width: 100%;
+    padding: 12px 14px;
+    margin-top: 6px;
+    border-radius: 8px;
+    border: 2px solid #a89cca;
+    font-size: 15px;
+    transition: border-color 0.3s ease;
+    color: #5a2a83;
+    font-weight: 500;
+  }
+  input[type="text"]:focus,
+  input[type="email"]:focus,
+  input[type="tel"]:focus,
+  input[type="date"]:focus,
+  select:focus {
+    border-color: #764ba2;
+    outline: none;
+    box-shadow: 0 0 6px #764ba2aa;
+  }
+  .radio-group,
+  .checkbox-group {
+    margin-top: 10px;
+  }
+  .checkbox-group label {
+    font-weight: normal;
+    margin-right: 18px;
+    cursor: pointer;
+    color: #6d5b8b;
+    user-select: none;
+  }
+  /* Terms */
+  .terms {
+    margin-top: 22px;
+    font-weight: normal;
+    font-size: 14px;
+    color: #6d5b8b;
+  }
+  .terms input {
+    margin-right: 8px;
+    vertical-align: middle;
+    cursor: pointer;
+  }
+  .terms a {
+    color: #764ba2;
+    text-decoration: none;
+  }
+  .terms a:hover {
+    text-decoration: underline;
+  }
+  button {
+    margin-top: 30px;
+    width: 100%;
+    padding: 14px 0;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    box-shadow: 0 6px 12px #5b2393cc;
+    transition: background 0.4s ease;
+  }
+  button:hover {
+    background: linear-gradient(90deg, #764ba2, #667eea);
+  }
+
+  /* Drag & Drop payment boxes container */
+  .payment-options {
+    display: flex;
+    gap: 12px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .payment-box {
+    padding: 12px 18px;
+    background-color: #f0eaff;
+    border-radius: 10px;
+    cursor: grab;
+    font-weight: 700;
+    color: #5a2a83;
+    user-select: none;
+    box-shadow: 0 2px 6px #b7a7d9;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    min-width: 100px;
+    text-align: center;
+  }
+  .payment-box:active {
+    cursor: grabbing;
+    box-shadow: 0 4px 12px #a186d1;
+  }
+  .payment-box.dragging {
+    opacity: 0.5;
+  }
+
+  /* Drop target styling */
+  .drop-area {
+    margin-top: 20px;
+    padding: 25px;
+    border: 3px dashed #a89cca;
+    border-radius: 12px;
+    text-align: center;
+    font-size: 16px;
+    color: #6d5b8b;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    min-height: 60px;
+  }
+  .drop-area.dragover {
+    background-color: #d1bfff;
+    border-color: #764ba2;
+    color: #4a3f65;
+  }
+  .drop-area.selected {
+    border-style: solid;
+    background-color: #b5a0ff;
+    color: #3a276b;
+    font-weight: 700;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/120px-React-icon.svg.png" alt="Quiz Program Logo" class="logo" />
+  <h2>Quiz Registration</h2>
+  <form id="quizForm" action="#" method="post">
+
+    <label for="name">Full Name</label>
+    <input type="text" id="name" name="name" required />
+
+    <label for="email">Email Address</label>
+    <input type="email" id="email" name="email" required />
+
+    <label for="phone">Phone Number</label>
+    <input type="tel" id="phone" name="phone" placeholder="+1234567890" pattern="[+0-9\s]{7,15}" required />
+
+    <label for="college">College Name</label>
+    <input type="text" id="college" name="college" required />
+
+    <label for="year">Year</label>
+    <select id="year" name="year" required>
+      <option value="" disabled selected>Select your year</option>
+      <option value="1">1st Year</option>
+      <option value="2">2nd Year</option>
+      <option value="3">3rd Year</option>
+      <option value="4">4th Year</option>
+    </select>
+
+    <label for="branch">Branch</label>
+    <select id="branch" name="branch" required>
+      <option value="" disabled selected>Select your branch</option>
+      <option value="computer_science">Computer Science</option>
+      <option value="electronics">Electronics</option>
+      <option value="mechanical">Mechanical</option>
+      <option value="civil">Civil</option>
+      <option value="chemical">Chemical</option>
+    </select>
+
+    <label for="dob">Date of Birth</label>
+    <input type="date" id="dob" name="dob" required />
+
+    <label>Gender</label>
+    <div class="radio-group">
+      <label><input type="radio" name="gender" value="male" required /> Male</label>
+      <label><input type="radio" name="gender" value="female" /> Female</label>
+      <label><input type="radio" name="gender" value="other" /> Other</label>
+    </div>
+
+    <label>Interested Topics</label>
+    <div class="checkbox-group">
+      <label><input type="checkbox" name="topics" value="ai_ml" /> AI &amp; ML</label>
+      <label><input type="checkbox" name="topics" value="data_science" /> Data Science</label>
+      <label><input type="checkbox" name="topics" value="python" /> Python</label>
+      <label><input type="checkbox" name="topics" value="iot" /> IoT</label>
+      <label><input type="checkbox" name="topics" value="java_full_stack" /> Java Full Stack</label>
+    </div>
+
+    <label>Payment Method (Drag & Drop)</label>
+    <div class="payment-options" id="paymentOptions">
+      <div class="payment-box" draggable="true" data-value="credit_card">Credit Card</div>
+      <div class="payment-box" draggable="true" data-value="debit_card">Debit Card</div>
+      <div class="payment-box" draggable="true" data-value="upi">UPI</div>
+      <div class="payment-box" draggable="true" data-value="net_banking">Net Banking</div>
+      <div class="payment-box" draggable="true" data-value="paypal">PayPal</div>
+    </div>
+
+    <div class="drop-area" id="dropArea">Drop your payment method here</div>
+
+    <!-- Hidden input to store payment value -->
+    <input type="hidden" name="payment" id="paymentInput" required />
+
+    <label class="terms">
+      <input type="checkbox" name="terms" required />
+      I accept the <a href="#" target="_blank">Terms and Conditions</a>
+    </label>
+
+    <button type="submit">Register</button>
+  </form>
+</div>
+
+<script>
+  const paymentBoxes = document.querySelectorAll('.payment-box');
+  const dropArea = document.getElementById('dropArea');
+  const paymentInput = document.getElementById('paymentInput');
+
+  paymentBoxes.forEach(box => {
+    box.addEventListener('dragstart', (e) => {
+      box.classList.add('dragging');
+      e.dataTransfer.setData('text/plain', box.dataset.value);
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    box.addEventListener('dragend', () => {
+      box.classList.remove('dragging');
+    });
+  });
+
+  dropArea.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    dropArea.classList.add('dragover');
+  });
+
+  dropArea.addEventListener('dragleave', () => {
+    dropArea.classList.remove('dragover');
+  });
+
+  dropArea.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dropArea.classList.remove('dragover');
+
+    const value = e.dataTransfer.getData('text/plain');
+    if (!value) return;
+
+    
+  </script>
+
+</body
